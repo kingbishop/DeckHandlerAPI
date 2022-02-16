@@ -19,6 +19,7 @@ var invalid_request = HttpError{Code: 400, Message: "Invalid Request"}
 
 var decks = make(map[string]deck.Deck)
 
+//Checks if request is a POST request
 func isPost(w http.ResponseWriter, r *http.Request) bool {
 	if r.Method != "POST" {
 		http.Error(w, "POST", invalid_request.Code)
@@ -28,6 +29,7 @@ func isPost(w http.ResponseWriter, r *http.Request) bool {
 	return true
 }
 
+//Checks if request is a GET request
 func isGet(w http.ResponseWriter, r *http.Request) bool {
 	if r.Method != "GET" {
 		http.Error(w, "GET", invalid_request.Code)
@@ -37,6 +39,7 @@ func isGet(w http.ResponseWriter, r *http.Request) bool {
 	return true
 }
 
+// Handles POST requests to draw a card from the deck
 func drawCardHandler(w http.ResponseWriter, r *http.Request) {
 	if !isPost(w, r) {
 		return
@@ -63,6 +66,7 @@ func drawCardHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//Handles GET requests to open the deck
 func openDeckHandler(w http.ResponseWriter, r *http.Request) {
 	if !isGet(w, r) {
 		return
@@ -81,6 +85,7 @@ func openDeckHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//Handles POST requests to create a deck
 func createDeckHandler(w http.ResponseWriter, r *http.Request) {
 
 	if !isPost(w, r) {
@@ -111,6 +116,7 @@ func createDeckHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//Handles health check requests
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	if !isGet(w, r) {
 		return
@@ -120,6 +126,7 @@ func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//Setup request handlers
 func HandleRequests() {
 	http.HandleFunc("/health-check", healthCheckHandler)
 	http.HandleFunc("/deck/draw", drawCardHandler)

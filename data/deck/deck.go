@@ -24,6 +24,7 @@ type Created struct {
 var suits = []string{"SPADE", "DIAMOND", "CLUB", "HEART"}
 var values = []string{"ACE", "2", "3", "4", "5", "6", "7", "8", "9", "10", "JACK", "QUEEN", "KING"}
 
+//Randomly shuffle the provided cards
 func shuffleCards(toshuffle *[]card.Card) {
 	random := rand.New(rand.NewSource(time.Now().UnixNano()))
 	cards := *toshuffle
@@ -33,9 +34,10 @@ func shuffleCards(toshuffle *[]card.Card) {
 	}
 }
 
+//Generates the cards from suits and values in sequential order
 func generateCards() ([]card.Card, map[string]card.Card) {
 	cards := []card.Card{}
-	cm := make(map[string]card.Card)
+	cm := make(map[string]card.Card) //Create map for deck with partial
 
 	for i := range suits {
 		for j := range values {
@@ -48,6 +50,8 @@ func generateCards() ([]card.Card, map[string]card.Card) {
 	return cards, cm
 }
 
+//Draws cards from the provided deck given a number of how many to draw
+//Returns array of Card objects
 func DrawCard(deck *Deck, count int) []card.Card {
 	dk := deck
 	cards := []card.Card{}
@@ -64,6 +68,11 @@ func DrawCard(deck *Deck, count int) []card.Card {
 	return cards
 }
 
+/*
+Creates a new deck of cards
+First parameter should be to shuffle the deck
+Second paramter is given is the specific cards to create the deck with.
+*/
 func New(params ...interface{}) Deck {
 	var shuffle bool
 	if len(params) > 0 {
