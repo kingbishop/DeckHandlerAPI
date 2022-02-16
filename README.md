@@ -19,6 +19,12 @@ How to run
 
 **Building**
 
+1) If you haven't installed go, install go https://go.dev/dl/
+1) Open terminal and clone this repo using git clone
+2) cd into the cloned repo
+3) type `go build -o DeckAPI`
+4) Now you can run an executable called DeckAPI
+
 Methods
 ======
 
