@@ -46,8 +46,8 @@ func drawCardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	params := r.URL.Query()
 	uuid := strings.Join(params["uuid"], "")
-	count, error := strconv.Atoi(strings.Join(params["count"], ""))
-	if error != nil {
+	count, err := strconv.Atoi(strings.Join(params["count"], ""))
+	if err != nil {
 		count = 0
 	}
 
@@ -59,7 +59,7 @@ func drawCardHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		cards := deck.DrawCard(&dk, count)
 
-		decks[uuid] = dk
+		decks[uuid] = dk //update "server" deck with modified
 
 		json.NewEncoder(w).Encode(deck.Deck{Cards: cards})
 	}
@@ -97,9 +97,9 @@ func createDeckHandler(w http.ResponseWriter, r *http.Request) {
 	shuffleParam := params["shuffle"]
 	cards := params["cards"]
 
-	shuffle, error := strconv.ParseBool(strings.Join(shuffleParam, ""))
+	shuffle, err := strconv.ParseBool(strings.Join(shuffleParam, ""))
 
-	if error != nil {
+	if err != nil {
 		shuffle = false
 	}
 
