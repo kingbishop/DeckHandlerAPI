@@ -6,7 +6,7 @@ import (
 
 func TestNewDeck(t *testing.T) {
 	dk := New()
-	if dk.Shuffled {
+	if *dk.Shuffled {
 		t.Fatalf(`Expected %v, but was %v`, false, true)
 	}
 
@@ -20,7 +20,7 @@ func TestNewDeck(t *testing.T) {
 
 	dk = New(true)
 
-	if !dk.Shuffled {
+	if !*dk.Shuffled {
 		t.Fatalf(`Expected %v, but was %v`, true, false)
 	}
 

@@ -10,15 +10,9 @@ import (
 
 type Deck struct {
 	UUID      string      `json:"uuid,omitempty"`
-	Shuffled  bool        `json:"shuffled,omitempty"`
+	Shuffled  *bool       `json:"shuffled,omitempty"`
 	Remaining int         `json:"remaining,omitempty"`
 	Cards     []card.Card `json:"cards,omitempty"`
-}
-
-type Created struct {
-	UUID      string `json:"uuid"`
-	Shuffled  bool   `json:"shuffled"`
-	Remaining int    `json:"remaining"`
 }
 
 var suits = []string{"SPADE", "DIAMOND", "CLUB", "HEART"}
@@ -42,7 +36,7 @@ func generateCards() ([]card.Card, map[string]card.Card) {
 	for i := range suits {
 		for j := range values {
 			c := card.New(values[j], suits[i])
-			cm[c.Code] = c
+			cm[c.Code] = c //add to map
 			cards = append(cards, c)
 		}
 	}
@@ -50,8 +44,12 @@ func generateCards() ([]card.Card, map[string]card.Card) {
 	return cards, cm
 }
 
-//Draws cards from the provided deck given a number of how many to draw
-//Returns array of Card objects
+/*
+Draws cards from the top of provided deck given a number of how many to draw.
+If provided count is more then the amount of cards, returns all the remaining cards.
+
+Returns array of Card objects
+*/
 func DrawCard(deck *Deck, count int) []card.Card {
 	dk := deck
 	cards := []card.Card{}
@@ -101,5 +99,5 @@ func New(params ...interface{}) Deck {
 		shuffleCards(&cards)
 	}
 
-	return Deck{id.String(), shuffle, len(cards), cards}
+	return Deck{id.String(), &shuffle, len(cards), cards}
 }

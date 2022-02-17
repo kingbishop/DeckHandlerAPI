@@ -112,7 +112,7 @@ func createDeckHandler(w http.ResponseWriter, r *http.Request) {
 
 	decks[dk.UUID] = dk
 
-	json.NewEncoder(w).Encode(deck.Created{UUID: dk.UUID, Shuffled: dk.Shuffled, Remaining: dk.Remaining})
+	json.NewEncoder(w).Encode(deck.Deck{UUID: dk.UUID, Shuffled: dk.Shuffled, Remaining: dk.Remaining})
 
 }
 

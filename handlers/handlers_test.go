@@ -69,7 +69,7 @@ func TestDrawCardHandler(t *testing.T) {
 
 }
 
-func createDeckRequest(shuffle bool, cards []string, t *testing.T) deck.Created {
+func createDeckRequest(shuffle bool, cards []string, t *testing.T) deck.Deck {
 
 	var urlQuery string
 	if len(cards) > 0 {
@@ -93,7 +93,7 @@ func createDeckRequest(shuffle bool, cards []string, t *testing.T) deck.Created 
 	}
 	decoder := json.NewDecoder(rr.Body)
 
-	var dk deck.Created
+	var dk deck.Deck
 	decodeErr := decoder.Decode(&dk)
 	if decodeErr != nil {
 		t.Fatal(decodeErr)
