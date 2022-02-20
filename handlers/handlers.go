@@ -15,14 +15,12 @@ type HttpError struct {
 	Message string `json:"message"`
 }
 
-var invalid_request = HttpError{Code: 400, Message: "Invalid Request"}
-
 var decks = make(map[string]deck.Deck)
 
 //Checks if request is a POST request
 func isPost(w http.ResponseWriter, r *http.Request) bool {
 	if r.Method != "POST" {
-		http.Error(w, "POST", invalid_request.Code)
+		w.WriteHeader(http.StatusMethodNotAllowed)
 		return false
 	}
 
@@ -32,7 +30,7 @@ func isPost(w http.ResponseWriter, r *http.Request) bool {
 //Checks if request is a GET request
 func isGet(w http.ResponseWriter, r *http.Request) bool {
 	if r.Method != "GET" {
-		http.Error(w, "GET", invalid_request.Code)
+		w.WriteHeader(http.StatusMethodNotAllowed)
 		return false
 	}
 
@@ -48,13 +46,14 @@ func drawCardHandler(w http.ResponseWriter, r *http.Request) {
 	uuid := strings.Join(params["uuid"], "")
 	count, err := strconv.Atoi(strings.Join(params["count"], ""))
 	if err != nil {
-		count = 0
+		http.Error(w, "Missing count param", http.StatusBadRequest)
+		return
 	}
 
 	if count > 0 {
 		dk, exists := decks[uuid]
 		if !exists {
-			http.Error(w, "Deck does not exist", invalid_request.Code)
+			http.Error(w, "Deck does not exist", http.StatusBadRequest)
 			return
 		}
 		cards := deck.DrawCard(&dk, count)
@@ -62,6 +61,9 @@ func drawCardHandler(w http.ResponseWriter, r *http.Request) {
 		decks[uuid] = dk //update "server" deck with modified
 
 		json.NewEncoder(w).Encode(deck.Deck{Cards: cards})
+	} else {
+		http.Error(w, "Must specify count greater than 0.", http.StatusBadRequest)
+		return
 	}
 
 }
@@ -77,7 +79,7 @@ func openDeckHandler(w http.ResponseWriter, r *http.Request) {
 
 	deck, exists := decks[uuid]
 	if !exists {
-		http.Error(w, "Deck does not exist", invalid_request.Code)
+		http.Error(w, "Deck does not exist", http.StatusBadRequest)
 		return
 	}
 

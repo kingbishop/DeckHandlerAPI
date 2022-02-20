@@ -31,7 +31,7 @@ Methods
 ## Create Deck
 Creates the standard 52-card deck. <br> Can choose the option to have it shuffled and/or select specific cards.
 
-## Endpoint
+### Endpoint
 
 **{url}/deck/create**
 
@@ -71,9 +71,10 @@ Response
 }
 ```
 
-### Open Deck
+## Open Deck
 
 Opens the deck with the specified deck id as uuid.
+### Endpoint
 
 **{url}/deck/open**
 
@@ -128,7 +129,8 @@ Response
 
 
 ### Draw Card
-
+Draws a card from the top of a valid deck
+### Endpoint
 **{url}/deck/draw**
 
 | Params        | values          
