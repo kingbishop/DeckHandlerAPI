@@ -46,7 +46,7 @@ func drawCardHandler(w http.ResponseWriter, r *http.Request) {
 	uuid := strings.Join(params["uuid"], "")
 	count, err := strconv.Atoi(strings.Join(params["count"], ""))
 	if err != nil {
-		http.Error(w, "Missing count param", http.StatusBadRequest)
+		http.Error(w, "Missing/incorrect count parameter", http.StatusBadRequest)
 		return
 	}
 
